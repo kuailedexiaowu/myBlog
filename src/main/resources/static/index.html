@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="Generator" content="EditPlus®">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+	<title>mybolg</title>
+	<style type="text/css">
+
+		.color1{
+			background-color:#66cdaa}
+		.color2{
+			background-color:orange;
+		}
+		div {
+			border-radius: 8px;
+			padding:1px}
+		.div1{
+			background-color:#3cb371;
+			height:200px;
+			border-radius: 0px;
+
+		}
+		.div2{
+			background-color:#008070;
+			height:200px;
+			border-radius:0px;
+			font-size:15px;
+			padding:0px;}
+		.div3{
+			background-color:#bc8f8f;}
+		.div4{
+			background-color:#708090;
+			height:300px;}
+		.div5{
+			background-color:#5f9ea0;
+			height:300px;}
+		.font1{
+			font-size:30px;
+			margin-top:50px;
+			margin-left:90px;
+		}
+		.font2{font-size:20px;
+			background-color:#4682b4;}
+		input[type="text"]{
+			width:200px;
+			margin-left:20px;
+		}
+		image{
+			align:center;
+			margin-top:20px;
+			height:auto;
+			width:auto;
+		}
+		input[type="password"]{
+			width:200px;
+			margin-left:20px;}
+		button[type="submit"]{
+			margin-left:80px;}
+
+	</style>
+</head>
+<body class="color1">
+<script>
+	function checkpass () {
+		if($("#p2").val()!=$("#p1").val())
+		{$("#tip1").text("两次输入不同").css({"color":"red"});
+				$("#p2").val("");}
+		else{$("#tip1").text("");}
+	};
+
+	function move(aa){
+		$('html,body').animate({
+			scrollTop:$(aa).offset().top},1000
+		)
+
+	}
+	$.post({
+		url:"/article/getarticlesbytype",
+		async:true,
+		dataType:'json',
+		data:{type:"文学"},
+		success:function(data){
+			for(var i=4;i<(data.length+4)&&i<7;i++){
+				$("#a"+i).text(data[i-4].title).css("color","red");
+				$("#a"+i).attr("href","/article.html?id="+data[i-4].id+"&writerid="+data[i-4].writerid);
+			var s=data[i-4].content.substr(0,20);
+			$("#label"+i).text(s+"...");}
+
+		},
+		error:function(){
+		},
+	})
+	$.post({
+		url:"/article/getarticlesbytype",
+		async:true,
+		dataType:'json',
+		data:{type:"其他"},
+		success:function(data){
+			for(var i=7;i<(data.length+7)&&i<10;i++){
+				$("#a"+i).text(data[i-7].title).css("color","red");
+				$("#a"+i).attr("href","/article.html?id="+data[i-7].id+"&writerid="+data[i-7].writerid);
+				var s=data[i-7].content.substr(0,25);
+				$("#label"+i).text(s+"...");}
+
+		},
+		error:function(){
+		},
+	})
+	$.post({
+		url:"/article/gethotarticle",
+		async:true,
+		dataType:'json',
+		success:function(data){
+			for(var i=1;i<(data.length)&&i<4;i++){
+				$("#a"+i).text(data[i-1].title).css("color","red");
+				$("#a"+i).attr("href","/article.html?id="+data[i-1].id+"&writerid="+data[i-1].writerid);
+				var s=data[i-1].content.substr(0,25);
+				$("#label"+i).text(s+"...");}
+
+		},
+		error:function(){
+		},
+	})
+
+	/*$().ready(function() {
+		$("#redian2").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#wenxue").offset().top
+			}, 1000);
+		});
+		$("#redian3").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#qita").offset().top
+			}, 1000);
+		});
+		$("#wenxue1").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#redian").offset().top
+			}, 1000);
+		});
+		$("#wenxue3").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#qita").offset().top
+			}, 1000);
+		});
+		$("#qita1").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#redian").offset().top
+			}, 1000);
+		});
+		$("#qita2").click(function() {
+			$('html, body').animate({
+				scrollTop: $("#wenxue").offset().top
+			}, 1000);
+		});
+	});*/
+
+</script>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-1 ">
+		</div>
+		<div class="col-md-7 div1">
+			<label class="font1">ＷＲＩＴＥ　ＹＯＵＲ　ＡＲＴＩＣＬＥ </label>
+		</div>
+		<div class="col-md-3 div2">
+			<form class="form-horizontal" role="form" action="/user/check" method="post">
+				<div class="form-group">
+					<label  class="col-sm-2 control-label">
+						Username
+					</label>
+					<div class="col-sm-10">
+						<input class="form-control" name="username" type="text" />
+					</div>
+				</div>
+				<div class="form-group">
+
+					<label  class="col-sm-2 control-label">
+						Password
+					</label>
+					<div class="col-sm-10">
+						<input class="form-control" name="password" type="password" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-mm-offset-2 col-sm-10">
+
+						<button type="submit" class="btn btn-default">
+							Sign in
+						</button>
+						<!-- 按钮触发模态框 -->
+						<button type="button" id="register" class="btn btn-default" data-toggle="modal" data-target="#userRegister">
+							Register
+						</button>
+					</div>
+				</div>
+
+			</form>
+		</div>
+		<div class="col-md-1 ">
+		</div>
+	</div>
+	<div class="row" id="redian">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8 div3">
+			<ul class="nav nav-tabs">
+				<li class="color2 disabled">
+					<a href="#">热点</a>
+				</li>
+				<li>
+					<a href="#" id="redian2" onclick="move(wenxue)">文学</a>
+				</li>
+				<li >
+					<a href="#" id="redian3" onclick="move(qita)">其他</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-4">
+			<div class="carousel slide " id="carousel-318557">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carousel-318557">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-318557">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-318557">
+					</li>
+				</ol>
+				<div class="carousel-inner div5">
+					<div class="item active ">
+						<img alt="Carousel Bootstrap First" src="image/xunhuan1.jpg" />
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Second" src="image/xunhuan2.jpg" />
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Third" src="image/xunhuan3.jpg" />
+					</div>
+				</div> <a class="left carousel-control" href="#carousel-318557" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+						<a class="right carousel-control" href="#carousel-318557" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+		<div class="col-md-4 div4">
+			<p>
+				<a href="#" id="a1"></a><br>
+				<label id="label1"></label><br>
+				<a href="#" id="a2"></a><br>
+				<label id="label2"></label><br>
+				<a href="#" id="a3"></a><br>
+				<label id="label3"></label><br>
+			</p>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row" id="wenxue">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8 div3">
+			<ul class="nav nav-tabs">
+				<li>
+					<a href="#" id="wenxue1" onclick="move(redian)">热点</a>
+				</li>
+				<li class="color2 disabled">
+					<a href="#">文学</a>
+				</li>
+				<li >
+					<a href="#" id="wenxue3" onclick="move(qita)">其他</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-4 div4">
+			<p>
+			<a href="#" id="a4"></a><br>
+			<label id="label4"></label><br>
+			<a  href="#"id="a5"></a><br>
+			<label id="label5"></label><br>
+			<a  href="#" id="a6"></a><br>
+			<label id="label6"></label>
+			</p>
+		</div>
+		<div class="col-md-4 ">
+			<div class="carousel slide " id="carousel-886835">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carousel-886835">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-886835">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-886835">
+					</li>
+				</ol>
+				<div class="carousel-inner div5">
+					<div class="item active ">
+						<img alt="Carousel Bootstrap First" src="image/xunhuan1.jpg" />
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Second" src="image/xunhuan2.jpg" />
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Third" src="image/xunhuan3.jpg" />
+					</div>
+				</div> <a class="left carousel-control" href="#carousel-886835" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-886835" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+
+	<div class="row" id="qita">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8 div3">
+			<ul class="nav nav-tabs">
+				<li>
+					<a href="#" id="qita1" onclick="move(redian)">热点</a>
+				</li>
+				<li>
+					<a href="#" id="qita2" onclick="move(wenxue)">文学</a>
+				</li>
+				<li class="disabled color2">
+					<a href="#" >其他</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-4">
+			<div class="carousel slide" id="carousel-454545">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carousel-454545">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-454545">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-454545">
+					</li>
+				</ol>
+				<div class="carousel-inner div5">
+					<div class="item active ">
+						<img alt="Carousel Bootstrap First"src="image/xunhuan1.jpg" />
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Second" src="image/xunhuan2.jpg" />
+					</div>
+					<div class="item">
+						<img alt="Carousel Bootstrap Third" src="image/xunhuan3.jpg" />
+					</div>
+				</div> <a class="left carousel-control" href="#carousel-454545" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carousel-454545" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+		<div class="col-md-4 div4">
+			<p>
+			<a href="#"  id="a7"></a><br>
+			<label id="label7"></label><br>
+			<a href="#" id="a8"></a><br>
+			<label id="label8"></label><br>
+			<a href="#" id="a9"></a><br>
+			<label id="label9"></label>
+			</p>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+
+	<div class="row font2">
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+			<div>
+				快乐的小坞 邮箱:1967379019@qq.com
+			</div>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="userRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel" align="center">欢迎注册</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form" action="/user/adduser" method="post">
+					<div class="form-group">
+						<label  class="col-sm-2 control-label col-sm-offset-2">
+							用户名
+						</label>
+						<div class="col-sm-8">
+							<input class="form-control" name="username" type="text" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label  class="col-sm-2 control-label col-sm-offset-2">
+							密码
+						</label>
+						<div class="col-sm-8">
+							<input class="form-control" id="p1"name="password" type="password" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label  class="col-sm-2 control-label col-sm-offset-2">
+							确认密码
+						</label>
+						<div class="col-sm-4">
+							<input class="form-control" id="p2" name="password2" type="password" onblur="checkpass()"/>
+						</div>
+						<label  id="tip1" class="col-sm-4 control-label ">
+
+						</label>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-5">
+							<button type="submit" class="btn btn-primary">提交</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+						</div>
+					</div>
+				</form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+</div>
+</body>
+</html>
