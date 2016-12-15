@@ -1,8 +1,8 @@
 package myBlog.domin;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Size;
 
 /**
  * Created by kj on 2016/9/5.
@@ -37,7 +37,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    @Size(min=6)
     private String password;
     private int visitor;
 

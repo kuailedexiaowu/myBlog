@@ -64,6 +64,8 @@
 </head>
 <body class="color1">
 <script>
+	function jiaoyan(){
+	}
 	function checkpass () {
 		if($("#p2").val()!=$("#p1").val())
 		{$("#tip1").text("两次输入不同").css({"color":"red"});
@@ -416,7 +418,7 @@
 							密码
 						</label>
 						<div class="col-sm-8">
-							<input class="form-control" id="p1"name="password" type="password" />
+							<input class="form-control" id="p1"name="password" type="password" onblur="jiaoyan()" />
 						</div>
 					</div>
 					<div class="form-group">

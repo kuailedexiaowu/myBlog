@@ -3,13 +3,18 @@ package myBlog.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import myBlog.domin.User;
 import myBlog.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +24,12 @@ import java.io.IOException;
 /**
  * Created by kj on 2016/9/5.
  */
-@RestController
+@Controller
 @RequestMapping("/user")
 @ResponseBody
 public class UserController  {
+    @Autowired
+    Validator validator;
    @Resource
    private UserService userService;
     @RequestMapping("/check")
@@ -59,7 +66,8 @@ public class UserController  {
         return user;
     }
     @RequestMapping("/adduser")
-    public void addUser(User user,HttpServletResponse response) throws IOException {
+    public void addUser(@Validated  User user, Errors errors, HttpServletResponse response) throws IOException {
+        validator.validate(user,errors);
         userService.addUser(user);
         response.sendRedirect("/index.html");
     }
